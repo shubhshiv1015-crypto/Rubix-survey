@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Where do you want to play? — Rubix anonymous pulse</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --bg:#EDF0F3; --card:#FFFFFF; --ink:#13202E; --muted:#5A6878; --line:#D3D9E0;
+  --hunt:#1F5F8B; --hunt-soft:#E3EEF6; --farm:#2E7359; --farm-soft:#E2F0EA;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0F161E; --card:#17212C; --ink:#E6ECF2; --muted:#94A3B3; --line:#2A3746;
+    --hunt:#6FAEDC; --hunt-soft:#1A2E40; --farm:#6CC19C; --farm-soft:#16302A;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0F161E; --card:#17212C; --ink:#E6ECF2; --muted:#94A3B3; --line:#2A3746;
+  --hunt:#6FAEDC; --hunt-soft:#1A2E40; --farm:#6CC19C; --farm-soft:#16302A;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-size:1rem;line-height:1.55}
+main{max-width:46rem;margin:0 auto;padding:3rem 1.25rem 4rem}
+.brand{font-size:.875rem;color:var(--muted);margin:0 0 2.5rem;display:flex;gap:.5rem;align-items:center}
+.brand .lock{display:inline-flex;align-items:center;gap:.35rem;padding:.2rem .6rem;border:1px solid var(--line);border-radius:999px;background:var(--card)}
+h1{font-family:"Fraunces",Georgia,"Times New Roman",serif;font-weight:650;
+  font-size:clamp(1.9rem,5vw,2.75rem);line-height:1.12;letter-spacing:-.01em;margin:0 0 1rem;max-width:22ch}
+.lede{color:var(--muted);max-width:60ch;margin:0 0 2.25rem}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media (max-width:560px){.choices{grid-template-columns:1fr}}
+.choice{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:.6rem;
+  background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:1.4rem 1.3rem 1.3rem;
+  transition:border-color .15s, transform .15s, background .15s}
+.choice:hover{transform:translateY(-2px)}
+.choice:focus-visible{outline:3px solid var(--hunt);outline-offset:3px}
+.choice[data-v="acquisition"]:hover,.choice[data-v="acquisition"][aria-pressed="true"]{border-color:var(--hunt);background:var(--hunt-soft)}
+.choice[data-v="account"]:hover,.choice[data-v="account"][aria-pressed="true"]{border-color:var(--farm);background:var(--farm-soft)}
+.choice svg{width:40px;height:40px}
+.choice h2{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:1.45rem;margin:0;line-height:1.2}
+.choice p{margin:0;color:var(--muted);font-size:.94rem}
+.actions{margin-top:1.75rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
+.submit{all:unset;cursor:pointer;background:var(--ink);color:var(--bg);font-weight:600;padding:.8rem 1.5rem;border-radius:10px}
+.submit[disabled]{opacity:.35;cursor:not-allowed}
+.submit:focus-visible{outline:3px solid var(--hunt);outline-offset:3px}
+.note{font-size:.85rem;color:var(--muted)}
+.done{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2rem 1.5rem;text-align:center}
+.done h2{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:1.6rem;margin:.5rem 0}
+.done p{color:var(--muted);margin:0}
+.results{margin-top:3rem;border-top:1px solid var(--line);padding-top:2rem}
+.results h3{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:1.3rem;margin:0 0 .25rem}
+.results .sub{color:var(--muted);font-size:.9rem;margin:0 0 1.5rem}
+.bar{margin-bottom:1.1rem}
+.bar .row{display:flex;justify-content:space-between;font-size:.95rem;margin-bottom:.35rem}
+.bar .row b{font-weight:600}
+.track{height:14px;background:var(--line);border-radius:7px;overflow:hidden}
+.fill{height:100%;border-radius:7px;width:0;transition:width .6s ease}
+.count{display:inline-flex;align-items:center;gap:.5rem;font-size:.9rem;color:var(--muted);margin:0 0 2rem}
+.count b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.count .dot{width:8px;height:8px;border-radius:50%;background:var(--farm)}
+.done .count{margin:1.25rem 0 0;justify-content:center}
+.err{color:#B3261E;font-size:.9rem;margin-top:1rem}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+  <div class="brand">
+    <span>Rubix Data Sciences · Sales team pulse</span>
+    <span class="lock">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      Anonymous
+    </span>
+  </div>
+
+  <section id="ask">
+    <h1>Knowing what you know about Rubix today, where does your strength lie?</h1>
+    <p class="count" data-count hidden><span class="dot"></span><span><b class="n">0</b> <span class="lbl">responses</span> collected so far</span></p>
+    <p class="lede">Pick the one you're strongest at and want to do more of. Nothing about you is recorded — your answer simply adds one to a running tally.</p>
+
+    <div id="form">
+    <div class="choices" role="group" aria-label="Choose one">
+      <button type="button" class="choice" data-v="acquisition" aria-pressed="false">
+        <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="20" r="17" stroke="var(--hunt)" stroke-width="2"/><circle cx="20" cy="20" r="10" stroke="var(--hunt)" stroke-width="2"/><circle cx="20" cy="20" r="3.5" fill="var(--hunt)"/></svg>
+        <h2>New Client Acquisition</h2>
+        <p>Opening doors, pitching new logos, and converting first-time buyers.</p>
+      </button>
+      <button type="button" class="choice" data-v="account" aria-pressed="false">
+        <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M20 35V17" stroke="var(--farm)" stroke-width="2" stroke-linecap="round"/><path d="M20 22c-7 0-11-4-11-11 7 0 11 4 11 11Z" stroke="var(--farm)" stroke-width="2" stroke-linejoin="round"/><path d="M20 18c0-6 3.5-10 10-10 0 6.5-3.5 10-10 10Z" fill="var(--farm)"/></svg>
+        <h2>Account Management</h2>
+        <p>Deepening existing relationships, renewals, upsell and client success.</p>
+      </button>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="submit" id="submit" disabled>Submit anonymously</button>
+      <span class="note">One response per person.</span>
+    </div>
+    <div class="err" id="err" hidden></div>
+    </div>
+  </section>
+
+  <section id="thanks" hidden>
+    <div class="done">
+      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--farm)" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m7.5 12.5 3 3 6-6.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <h2>Thanks — your response is in.</h2>
+      <p>Your answer was added to the tally. Nothing that identifies you was kept.</p>
+      <p class="count" data-count hidden><span class="dot"></span><span><b class="n">0</b> <span class="lbl">responses</span> collected so far</span></p>
+    </div>
+  </section>
+</main>
+
+<script>
+(function(){
+  var KEY="rubix-strength-survey-v1-done", API="/.netlify/functions/tally";
+  var submit=document.getElementById("submit"), err=document.getElementById("err");
+  var btns=document.querySelectorAll(".choice"), picked=null, count=null;
+
+  function done(){try{return localStorage.getItem(KEY)==="1"}catch(e){return false}}
+  function showThanks(){document.getElementById("ask").hidden=true;document.getElementById("thanks").hidden=false}
+  function paint(){ if(count===null) return;
+    document.querySelectorAll("[data-count]").forEach(function(el){
+      el.querySelector(".n").textContent=count;
+      el.querySelector(".lbl").textContent=count===1?"response":"responses";
+      el.hidden=false; }); }
+  function loadCount(){
+    fetch(API,{cache:"no-store"}).then(function(r){ if(!r.ok) throw 0; return r.json(); })
+      .then(function(d){ if(typeof d.total==="number"){ count=d.total; paint(); } })
+      .catch(function(){});
+  }
+
+  if(done()) showThanks();
+  loadCount(); setInterval(loadCount,60000);
+
+  btns.forEach(function(b){ b.addEventListener("click",function(){
+    picked=b.dataset.v;
+    btns.forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
+    submit.disabled=false;
+  })});
+
+  submit.addEventListener("click",function(){
+    if(!picked) return;
+    submit.disabled=true; err.hidden=true;
+    fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({choice:picked})})
+      .then(function(r){ if(!r.ok) throw 0; return r.json(); })
+      .then(function(d){
+        try{localStorage.setItem(KEY,"1")}catch(x){}
+        if(typeof d.total==="number"){count=d.total;paint();}
+        showThanks();
+      })
+      .catch(function(){ submit.disabled=false; err.hidden=false;
+        err.textContent="Couldn't send your response. Please check your connection and try again."; });
+  });
+})();
+</script>
+</body>
+</html>
