@@ -3,135 +3,205 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Where do you want to play? — Rubix anonymous pulse</title>
+<title>Rubix sales pulse: where do you do your best work?</title>
+<meta name="description" content="A one-question anonymous pulse for the Rubix sales team.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎯</text></svg>">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   box-sizing:border-box;
   padding-top:env(safe-area-inset-top,0px);
   padding-bottom:env(safe-area-inset-bottom,0px);
-  --bg:#EDF0F3; --card:#FFFFFF; --ink:#13202E; --muted:#5A6878; --line:#D3D9E0;
-  --hunt:#1F5F8B; --hunt-soft:#E3EEF6; --farm:#2E7359; --farm-soft:#E2F0EA;
+  --mist:#E8EDF0; --ink:#102232; --muted:#546576; --rule:#CBD5DC; --white:#FFFFFF;
+  --hunt:#0F4C81; --hunt-deep:#0A375E;
+  --farm:#2C6A4E; --farm-deep:#1E4D38;
+  --mark:#F2C14E;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --bg:#0F161E; --card:#17212C; --ink:#E6ECF2; --muted:#94A3B3; --line:#2A3746;
-    --hunt:#6FAEDC; --hunt-soft:#1A2E40; --farm:#6CC19C; --farm-soft:#16302A;
+    --mist:#0E171F; --ink:#E7EDF2; --muted:#98A8B7; --rule:#26343F; --white:#16222C;
+    --hunt:#1D5E97; --hunt-deep:#154A78; --farm:#2F7555; --farm-deep:#235C42;
   }
 }
 :root[data-theme="dark"]{
-  --bg:#0F161E; --card:#17212C; --ink:#E6ECF2; --muted:#94A3B3; --line:#2A3746;
-  --hunt:#6FAEDC; --hunt-soft:#1A2E40; --farm:#6CC19C; --farm-soft:#16302A;
+  --mist:#0E171F; --ink:#E7EDF2; --muted:#98A8B7; --rule:#26343F; --white:#16222C;
+  --hunt:#1D5E97; --hunt-deep:#154A78; --farm:#2F7555; --farm-deep:#235C42;
 }
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *,*::before,*::after{box-sizing:inherit}
-body{margin:0;background:var(--bg);color:var(--ink);
-  font-family:"Public Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  font-size:1rem;line-height:1.55}
-main{max-width:46rem;margin:0 auto;padding:3rem 1.25rem 4rem}
-.brand{font-size:.875rem;color:var(--muted);margin:0 0 2.5rem;display:flex;gap:.5rem;align-items:center}
-.brand .lock{display:inline-flex;align-items:center;gap:.35rem;padding:.2rem .6rem;border:1px solid var(--line);border-radius:999px;background:var(--card)}
-h1{font-family:"Fraunces",Georgia,"Times New Roman",serif;font-weight:650;
-  font-size:clamp(1.9rem,5vw,2.75rem);line-height:1.12;letter-spacing:-.01em;margin:0 0 1rem;max-width:22ch}
-.lede{color:var(--muted);max-width:60ch;margin:0 0 2.25rem}
-.choices{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
-@media (max-width:560px){.choices{grid-template-columns:1fr}}
-.choice{all:unset;box-sizing:border-box;cursor:pointer;display:flex;flex-direction:column;gap:.6rem;
-  background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:1.4rem 1.3rem 1.3rem;
-  transition:border-color .15s, transform .15s, background .15s}
-.choice:hover{transform:translateY(-2px)}
-.choice:focus-visible{outline:3px solid var(--hunt);outline-offset:3px}
-.choice[data-v="acquisition"]:hover,.choice[data-v="acquisition"][aria-pressed="true"]{border-color:var(--hunt);background:var(--hunt-soft)}
-.choice[data-v="account"]:hover,.choice[data-v="account"][aria-pressed="true"]{border-color:var(--farm);background:var(--farm-soft)}
-.choice svg{width:40px;height:40px}
-.choice h2{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:1.45rem;margin:0;line-height:1.2}
-.choice p{margin:0;color:var(--muted);font-size:.94rem}
-.actions{margin-top:1.75rem;display:flex;align-items:center;gap:1rem;flex-wrap:wrap}
-.submit{all:unset;cursor:pointer;background:var(--ink);color:var(--bg);font-weight:600;padding:.8rem 1.5rem;border-radius:10px}
-.submit[disabled]{opacity:.35;cursor:not-allowed}
-.submit:focus-visible{outline:3px solid var(--hunt);outline-offset:3px}
-.note{font-size:.85rem;color:var(--muted)}
-.done{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:2rem 1.5rem;text-align:center}
-.done h2{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:1.6rem;margin:.5rem 0}
-.done p{color:var(--muted);margin:0}
-.results{margin-top:3rem;border-top:1px solid var(--line);padding-top:2rem}
-.results h3{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:1.3rem;margin:0 0 .25rem}
-.results .sub{color:var(--muted);font-size:.9rem;margin:0 0 1.5rem}
-.bar{margin-bottom:1.1rem}
-.bar .row{display:flex;justify-content:space-between;font-size:.95rem;margin-bottom:.35rem}
-.bar .row b{font-weight:600}
-.track{height:14px;background:var(--line);border-radius:7px;overflow:hidden}
-.fill{height:100%;border-radius:7px;width:0;transition:width .6s ease}
-.count{display:inline-flex;align-items:center;gap:.5rem;font-size:.9rem;color:var(--muted);margin:0 0 2rem}
+body{margin:0;min-height:100%;background:var(--mist);color:var(--ink);
+  font-family:"Source Sans 3",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  font-size:1.0625rem;line-height:1.55;-webkit-font-smoothing:antialiased}
+.wrap{max-width:62rem;margin:0 auto;padding:1.5rem 1.25rem 3rem}
+
+/* top bar */
+.bar{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:3rem}
+.logo{display:flex;align-items:center;gap:.6rem;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:700;font-size:1.05rem;letter-spacing:-.01em}
+.logo svg{width:26px;height:26px}
+.anon{display:inline-flex;align-items:center;gap:.4rem;font-size:.875rem;font-weight:600;color:var(--ink);
+  padding:.35rem .75rem;border-radius:999px;background:var(--white);border:1px solid var(--rule)}
+
+/* intro */
+.intro{max-width:40rem;margin-bottom:2.25rem}
+h1{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;
+  font-size:clamp(2.2rem,6.2vw,3.9rem);line-height:1.02;letter-spacing:-.03em;margin:0 0 1.1rem}
+.intro p{margin:0;color:var(--muted);max-width:36rem;font-size:1.125rem}
+.count{display:inline-flex;align-items:center;gap:.55rem;margin-top:1.4rem;font-size:.95rem;color:var(--muted)}
 .count b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
-.count .dot{width:8px;height:8px;border-radius:50%;background:var(--farm)}
-.done .count{margin:1.25rem 0 0;justify-content:center}
-.err{color:#B3261E;font-size:.9rem;margin-top:1rem}
+.pulse{width:9px;height:9px;border-radius:50%;background:var(--farm);box-shadow:0 0 0 0 rgba(44,106,78,.5);animation:ping 2.4s ease-out infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(44,106,78,.45)}70%,100%{box-shadow:0 0 0 9px rgba(44,106,78,0)}}
+
+/* the two halves: the one bold move */
+.split{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:22px;overflow:hidden;
+  box-shadow:0 1px 0 rgba(16,34,50,.04),0 24px 48px -28px rgba(16,34,50,.45)}
+.opt{all:unset;box-sizing:border-box;position:relative;cursor:pointer;color:#fff;
+  padding:2.2rem 2rem 2rem;min-height:21rem;display:flex;flex-direction:column;
+  transition:filter .25s ease, flex-basis .3s ease}
+.opt[data-v="acquisition"]{background:linear-gradient(160deg,var(--hunt) 0%,var(--hunt-deep) 100%)}
+.opt[data-v="account"]{background:linear-gradient(200deg,var(--farm) 0%,var(--farm-deep) 100%)}
+.opt .art{width:64px;height:64px;margin-bottom:auto;opacity:.95}
+.opt .kicker{font-size:.95rem;font-weight:600;opacity:.78;margin:2rem 0 .3rem}
+.opt h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:700;font-size:clamp(1.6rem,3vw,2.1rem);
+  line-height:1.08;letter-spacing:-.02em;margin:0 0 .75rem}
+.opt p{margin:0;font-size:1rem;line-height:1.5;opacity:.86;max-width:26rem}
+.tick{position:absolute;top:1.4rem;right:1.4rem;width:40px;height:40px;border-radius:50%;
+  border:2px solid rgba(255,255,255,.55);display:grid;place-items:center;transition:all .2s ease}
+.tick svg{width:20px;height:20px;opacity:0;transform:scale(.6);transition:all .2s ease}
+.opt[aria-checked="true"] .tick{background:var(--mark);border-color:var(--mark)}
+.opt[aria-checked="true"] .tick svg{opacity:1;transform:scale(1)}
+.split.has-pick .opt[aria-checked="false"]{filter:saturate(.35) brightness(.78)}
+.opt:hover .tick{border-color:#fff}
+.opt:focus-visible{outline:4px solid var(--mark);outline-offset:-4px}
+.or{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;width:44px;height:44px;border-radius:50%;
+  background:var(--mist);color:var(--ink);display:grid;place-items:center;font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:700;font-size:.95rem;pointer-events:none}
+.stage{position:relative}
+
+/* send */
+.send{display:flex;align-items:center;gap:1.25rem;flex-wrap:wrap;margin-top:1.75rem}
+.btn{all:unset;box-sizing:border-box;cursor:pointer;background:var(--ink);color:var(--mist);font-weight:600;font-size:1.05rem;
+  padding:.95rem 1.8rem;border-radius:12px;transition:transform .15s ease,opacity .15s ease}
+.btn:hover:not([disabled]){transform:translateY(-1px)}
+.btn[disabled]{opacity:.3;cursor:not-allowed}
+.btn:focus-visible{outline:3px solid var(--hunt);outline-offset:3px}
+.hint{font-size:.95rem;color:var(--muted)}
+.err{margin-top:1rem;color:#B3261E;font-weight:500}
+
+.privacy{display:flex;gap:.8rem;align-items:flex-start;margin-top:2.75rem;padding-top:1.5rem;border-top:1px solid var(--rule);
+  max-width:40rem;font-size:.95rem;color:var(--muted)}
+.privacy svg{flex:none;width:22px;height:22px;margin-top:.1rem}
+
+/* thanks */
+.thanks{max-width:36rem;margin:3rem auto 0;text-align:center}
+.thanks .seal{width:84px;height:84px;margin:0 auto 1.5rem;border-radius:50%;background:var(--mark);display:grid;place-items:center}
+.thanks h2{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;font-size:clamp(2rem,5vw,2.8rem);letter-spacing:-.025em;line-height:1.05;margin:0 0 .8rem}
+.thanks p{color:var(--muted);margin:0 auto;max-width:30rem}
+.thanks .count{margin-top:1.75rem}
+.thanks .seal svg{animation:pop .45s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes pop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
+
 [hidden]{display:none!important}
+
+@media (max-width:680px){
+  .bar{margin-bottom:2rem}
+  .split{grid-template-columns:1fr;border-radius:18px}
+  .opt{min-height:0;padding:1.6rem 1.4rem 1.5rem}
+  .opt .art{width:48px;height:48px}
+  .opt .kicker{margin-top:1.2rem}
+  .btn{width:100%;text-align:center}
+}
+@media (prefers-reduced-motion: reduce){
+  *{animation:none!important;transition:none!important}
+}
 </style>
 </head>
 <body>
-<main>
-  <div class="brand">
-    <span>Rubix Data Sciences · Sales team pulse</span>
-    <span class="lock">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
-      Anonymous
+<div class="wrap">
+  <header class="bar">
+    <div class="logo">
+      <svg viewBox="0 0 26 26" aria-hidden="true"><rect x="1" y="1" width="11" height="11" rx="2.5" fill="var(--hunt)"/><rect x="14" y="1" width="11" height="11" rx="2.5" fill="var(--ink)" opacity=".85"/><rect x="1" y="14" width="11" height="11" rx="2.5" fill="var(--ink)" opacity=".85"/><rect x="14" y="14" width="11" height="11" rx="2.5" fill="var(--farm)"/></svg>
+      Rubix sales pulse
+    </div>
+    <span class="anon">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+      100% anonymous
     </span>
-  </div>
+  </header>
 
-  <section id="ask">
-    <h1>Knowing what you know about Rubix today, where does your strength lie?</h1>
-    <p class="count" data-count hidden><span class="dot"></span><span><b class="n">0</b> <span class="lbl">responses</span> collected so far</span></p>
-    <p class="lede">Pick the one you're strongest at and want to do more of. Nothing about you is recorded — your answer simply adds one to a running tally.</p>
+  <main id="ask">
+    <section class="intro">
+      <h1>Where do you do your best work?</h1>
+      <p>You know Rubix, our clients and our market well by now. Tell us which side of the business plays to your strengths, and where you'd like to spend more of your time.</p>
+      <div class="count" data-count hidden><span class="pulse" aria-hidden="true"></span><span><b class="n">0</b> <span class="lbl">colleagues have</span> answered so far</span></div>
+    </section>
 
-    <div id="form">
-    <div class="choices" role="group" aria-label="Choose one">
-      <button type="button" class="choice" data-v="acquisition" aria-pressed="false">
-        <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><circle cx="20" cy="20" r="17" stroke="var(--hunt)" stroke-width="2"/><circle cx="20" cy="20" r="10" stroke="var(--hunt)" stroke-width="2"/><circle cx="20" cy="20" r="3.5" fill="var(--hunt)"/></svg>
-        <h2>New Client Acquisition</h2>
-        <p>Opening doors, pitching new logos, and converting first-time buyers.</p>
-      </button>
-      <button type="button" class="choice" data-v="account" aria-pressed="false">
-        <svg viewBox="0 0 40 40" fill="none" aria-hidden="true"><path d="M20 35V17" stroke="var(--farm)" stroke-width="2" stroke-linecap="round"/><path d="M20 22c-7 0-11-4-11-11 7 0 11 4 11 11Z" stroke="var(--farm)" stroke-width="2" stroke-linejoin="round"/><path d="M20 18c0-6 3.5-10 10-10 0 6.5-3.5 10-10 10Z" fill="var(--farm)"/></svg>
-        <h2>Account Management</h2>
-        <p>Deepening existing relationships, renewals, upsell and client success.</p>
-      </button>
+    <div class="stage">
+      <div class="split" role="radiogroup" aria-label="Choose one">
+        <button type="button" class="opt" role="radio" aria-checked="false" data-v="acquisition">
+          <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#102232" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>
+          <svg class="art" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+            <circle cx="32" cy="32" r="28" stroke="#fff" stroke-opacity=".35" stroke-width="2"/>
+            <circle cx="32" cy="32" r="18" stroke="#fff" stroke-opacity=".6" stroke-width="2"/>
+            <circle cx="32" cy="32" r="7" fill="var(--mark)"/>
+            <path d="M32 2v10M32 52v10M2 32h10M52 32h10" stroke="#fff" stroke-opacity=".6" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="kicker">New Client Acquisition</span>
+          <h2>Winning new clients</h2>
+          <p>Finding the right prospects, opening doors, and turning first conversations into signed business.</p>
+        </button>
+        <button type="button" class="opt" role="radio" aria-checked="false" data-v="account">
+          <span class="tick" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#102232" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>
+          <svg class="art" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+            <path d="M8 54h48" stroke="#fff" stroke-opacity=".35" stroke-width="2" stroke-linecap="round"/>
+            <rect x="12" y="38" width="8" height="16" rx="2" fill="#fff" fill-opacity=".35"/>
+            <rect x="26" y="28" width="8" height="26" rx="2" fill="#fff" fill-opacity=".6"/>
+            <rect x="40" y="16" width="8" height="38" rx="2" fill="var(--mark)"/>
+            <path d="M14 30c8-2 16-8 22-16l4-4" stroke="#fff" stroke-opacity=".6" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span class="kicker">Account Management</span>
+          <h2>Growing the clients we have</h2>
+          <p>Building long relationships, driving renewals and upsell, and making Rubix indispensable to every account.</p>
+        </button>
+      </div>
+      <span class="or" aria-hidden="true">or</span>
     </div>
 
-    <div class="actions">
-      <button type="button" class="submit" id="submit" disabled>Submit anonymously</button>
-      <span class="note">One response per person.</span>
+    <div class="send">
+      <button type="button" class="btn" id="submit" disabled>Send my answer</button>
+      <span class="hint" id="hint">Pick one to continue.</span>
     </div>
-    <div class="err" id="err" hidden></div>
+    <div class="err" id="err" role="alert" hidden></div>
+
+    <div class="privacy">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8.4 7.5 9.5 4.3-1.1 7.5-4.9 7.5-9.5V6L12 3Z"/><path d="m9 12 2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>This is completely anonymous. We don't record your name, email, device or the time you answer. Your choice simply adds one to a running total.</span>
     </div>
+  </main>
+
+  <section class="thanks" id="thanks" hidden>
+    <div class="seal"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#102232" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></div>
+    <h2>Thanks, your answer is in.</h2>
+    <p>It's been added to the count with nothing that identifies you. Your input helps shape how we build the team.</p>
+    <div class="count" data-count hidden><span class="pulse" aria-hidden="true"></span><span><b class="n">0</b> <span class="lbl">colleagues have</span> answered so far</span></div>
   </section>
-
-  <section id="thanks" hidden>
-    <div class="done">
-      <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--farm)" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m7.5 12.5 3 3 6-6.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      <h2>Thanks — your response is in.</h2>
-      <p>Your answer was added to the tally. Nothing that identifies you was kept.</p>
-      <p class="count" data-count hidden><span class="dot"></span><span><b class="n">0</b> <span class="lbl">responses</span> collected so far</span></p>
-    </div>
-  </section>
-</main>
+</div>
 
 <script>
 (function(){
   var KEY="rubix-strength-survey-v1-done", API="/.netlify/functions/tally";
-  var submit=document.getElementById("submit"), err=document.getElementById("err");
-  var btns=document.querySelectorAll(".choice"), picked=null, count=null;
+  var submit=document.getElementById("submit"), err=document.getElementById("err"), hint=document.getElementById("hint");
+  var split=document.querySelector(".split"), opts=document.querySelectorAll(".opt");
+  var picked=null, count=null;
+  var names={acquisition:"Winning new clients",account:"Growing the clients we have"};
 
   function done(){try{return localStorage.getItem(KEY)==="1"}catch(e){return false}}
-  function showThanks(){document.getElementById("ask").hidden=true;document.getElementById("thanks").hidden=false}
+  function showThanks(){document.getElementById("ask").hidden=true;document.getElementById("thanks").hidden=false;window.scrollTo(0,0)}
   function paint(){ if(count===null) return;
     document.querySelectorAll("[data-count]").forEach(function(el){
       el.querySelector(".n").textContent=count;
-      el.querySelector(".lbl").textContent=count===1?"response":"responses";
-      el.hidden=false; }); }
+      el.querySelector(".lbl").textContent=count===1?"colleague has":"colleagues have";
+      el.hidden=count<1; }); }
   function loadCount(){
     fetch(API,{cache:"no-store"}).then(function(r){ if(!r.ok) throw 0; return r.json(); })
       .then(function(d){ if(typeof d.total==="number"){ count=d.total; paint(); } })
@@ -141,15 +211,17 @@ h1{font-family:"Fraunces",Georgia,"Times New Roman",serif;font-weight:650;
   if(done()) showThanks();
   loadCount(); setInterval(loadCount,60000);
 
-  btns.forEach(function(b){ b.addEventListener("click",function(){
-    picked=b.dataset.v;
-    btns.forEach(function(x){x.setAttribute("aria-pressed",x===b?"true":"false")});
+  opts.forEach(function(o){ o.addEventListener("click",function(){
+    picked=o.dataset.v;
+    opts.forEach(function(x){x.setAttribute("aria-checked",x===o?"true":"false")});
+    split.classList.add("has-pick");
     submit.disabled=false;
+    hint.textContent="You picked: "+names[picked]+".";
   })});
 
   submit.addEventListener("click",function(){
     if(!picked) return;
-    submit.disabled=true; err.hidden=true;
+    submit.disabled=true; submit.textContent="Sending…"; err.hidden=true;
     fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({choice:picked})})
       .then(function(r){ if(!r.ok) throw 0; return r.json(); })
       .then(function(d){
@@ -157,8 +229,10 @@ h1{font-family:"Fraunces",Georgia,"Times New Roman",serif;font-weight:650;
         if(typeof d.total==="number"){count=d.total;paint();}
         showThanks();
       })
-      .catch(function(){ submit.disabled=false; err.hidden=false;
-        err.textContent="Couldn't send your response. Please check your connection and try again."; });
+      .catch(function(){
+        submit.disabled=false; submit.textContent="Send my answer"; err.hidden=false;
+        err.textContent="Your answer didn't go through. Check your connection and select Send my answer again.";
+      });
   });
 })();
 </script>
